@@ -6,6 +6,7 @@
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
       margin: 0;
       padding: 16px;
+      background-color: #f0f0f0;
     }
     h1 {
       font-size: 14px;
@@ -15,30 +16,38 @@
     #counter {
       font-size: 24px;
     }
+    .neumorphic {
+      display: inline-block;
+      background-color: #f0f0f0;
+      border-radius: 10px;
+      padding: 12px 16px;
+      box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.1), -6px -6px 12px rgba(255, 255, 255, 0.9);
+    }
+    p {
+      margin: 0;
+    }
   </style>
 </head>
 <body>
   <h1>Contador de elementos</h1>
-  <p>Elementos seleccionados: <span id="counter">0</span></p>
+  <div class="neumorphic">
+    <p>Elementos seleccionados: <span id="counter">0</span></p>
+  </div>
   <script>
     // ui.js
 
-console.log('ui.js loaded'); // Agregar esta l�nea al comienzo de ui.js
+    console.log('ui.js loaded');
 
-// Funci�n para recibir mensajes desde code.js
-function handleMessage(event) {
-  console.log('Message received from code.js:', event.data.pluginMessage); // Agregar esta l�nea
-  if (event.data.pluginMessage.type === 'update-counter') {
-    document.getElementById('counter').innerText = event.data.pluginMessage.payload;
-  }
-}
+    function handleMessage(event) {
+      console.log('Message received from code.js:', event.data.pluginMessage);
+      if (event.data.pluginMessage.type === 'update-counter') {
+        document.getElementById('counter').innerText = event.data.pluginMessage.payload;
+      }
+    }
 
+    window.addEventListener('message', handleMessage);
 
-// A�adir el evento "message" al objeto window para escuchar los mensajes
-window.addEventListener('message', handleMessage);
-
-// Este c�digo es necesario para que Figma sepa que el archivo ui.js se ha cargado correctamente
-parent.postMessage({ pluginMessage: { type: 'ready' } }, '*');
+    parent.postMessage({ pluginMessage: { type: 'ready' } }, '*');
 
   </script>
 </body>
