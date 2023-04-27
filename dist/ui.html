@@ -7,15 +7,39 @@
       margin: 0;
       padding: 16px;
     }
+    h1 {
+      font-size: 14px;
+      font-weight: 600;
+      margin: 0 0 8px;
+    }
     #counter {
       font-size: 24px;
     }
   </style>
-<script defer src="ui.js"></script></head>
+</head>
 <body>
   <h1>Contador de elementos</h1>
   <p>Elementos seleccionados: <span id="counter">0</span></p>
+  <script>
+    // ui.js
 
-  <script src="ui.js"></script>
+console.log('ui.js loaded'); // Agregar esta l�nea al comienzo de ui.js
+
+// Funci�n para recibir mensajes desde code.js
+function handleMessage(event) {
+  console.log('Message received from code.js:', event.data.pluginMessage); // Agregar esta l�nea
+  if (event.data.pluginMessage.type === 'update-counter') {
+    document.getElementById('counter').innerText = event.data.pluginMessage.payload;
+  }
+}
+
+
+// A�adir el evento "message" al objeto window para escuchar los mensajes
+window.addEventListener('message', handleMessage);
+
+// Este c�digo es necesario para que Figma sepa que el archivo ui.js se ha cargado correctamente
+parent.postMessage({ pluginMessage: { type: 'ready' } }, '*');
+
+  </script>
 </body>
 </html>

@@ -1,11 +1,12 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const InlineChunkHtmlPlugin = require("inline-chunk-html-plugin"); // Agrega esta línea
 const path = require("path");
 
 module.exports = {
   mode: "development",
   entry: {
-    ui: "./ui.js",
+    // ui: "./ui.js",
   },
   output: {
     filename: "[name].js",
@@ -15,9 +16,9 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "./ui.html",
       filename: "ui.html",
-      inlineSource: ".(js)$",
       chunks: ["ui"],
     }),
+    new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/ui/]), // Agrega esta línea
     new CopyWebpackPlugin({
       patterns: [
         {
